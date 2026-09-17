@@ -11,10 +11,10 @@ env/
 ENV/
 
 # Django local files
-my_project/db.sqlite3
-my_project/db.sqlite3-journal
-my_project/staticfiles/
-my_project/media/
+db.sqlite3
+db.sqlite3-journal
+staticfiles/
+media/
 *.log
 
 # Environment variables and local secrets
