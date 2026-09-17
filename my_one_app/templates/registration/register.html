@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Register — Savora{% endblock %}
+
+{% block content %}
+  <div class="auth-page wrap">
+    <h1 data-i18n="createAccount">Create an account</h1>
+    <form class="auth-form" method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button class="btn btn-dark" data-i18n="register" type="submit">Register</button>
+    </form>
+    <p><span data-i18n="alreadyRegistered">Already registered?</span> <a data-i18n="login" href="{% url 'login' %}">Log in</a>.</p>
+  </div>
+{% endblock %}

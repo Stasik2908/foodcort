@@ -1,0 +1,43 @@
+# Python cache and compiled files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Django local files
+my_project/db.sqlite3
+my_project/db.sqlite3-journal
+my_project/staticfiles/
+my_project/media/
+*.log
+
+# Environment variables and local secrets
+.env
+.env.*
+!.env.example
+
+# Test and tooling files
+.coverage
+htmlcov/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# IDE settings
+.vscode/
+.idea/
+*.code-workspace
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# Local development files
+*.sqlite3-shm
+*.sqlite3-wal

@@ -1,0 +1,150 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ restaurant_obj.name }} — Savora{% endblock %}
+
+{% block mobile_content %}
+  <div class="m-rhero">
+    <div class="ph {{ restaurant_obj.image_class }}" data-label="{{ restaurant_obj.name }} dining room"></div>
+    <div class="overlay"></div>
+    <div class="m-rhero-top">
+      <a class="m-back" href="{% url 'restaurants' %}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></a>
+      {% if user.is_authenticated %}<form action="{% url 'toggle_favorite' slug=restaurant_obj.slug %}" method="post">{% csrf_token %}<button class="m-bookmark{% if is_favorite %} active{% endif %}" type="submit" aria-label="Toggle favorite"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3h12a1 1 0 0 1 1 1v17l-7-4-7 4V4a1 1 0 0 1 1-1Z"/></svg></button></form>{% else %}<a class="m-bookmark" href="{% url 'login' %}?next={{ request.path }}" aria-label="Log in to save"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3h12a1 1 0 0 1 1 1v17l-7-4-7 4V4a1 1 0 0 1 1-1Z"/></svg></a>{% endif %}
+    </div>
+    <div class="m-rhero-bottom">
+      <div class="tag-row"><span class="tag rated" data-cuisine="{{ restaurant_obj.cuisine }}" style="background:var(--rust);">{{ restaurant_obj.cuisine }}</span><span class="tag michelin">{{ restaurant_obj.price }}</span></div>
+      <h1>{{ restaurant_obj.name }}</h1>
+    </div>
+  </div>
+
+  <div class="m-stat-row">
+    <div class="stat"><div class="num">★ {{ restaurant_obj.rating }}</div><div class="lbl" data-i18n="rating">RATING</div></div>
+    <div class="stat"><div class="num">{{ reviews|length }} Reviews</div><div class="lbl" data-i18n="critics">CRITICS</div></div>
+    <div class="stat"><div class="num">{{ restaurant_obj.location }}</div><div class="lbl" data-i18n="location">LOCATION</div></div>
+  </div>
+
+  <div class="m-block">
+    <h2 data-i18n="criticsVerdicts">Critics' Verdicts</h2>
+    {% for review in reviews %}<details class="review-accordion m-review-card"{% if forloop.first %} open{% endif %}>
+      <summary class="toprow"><span style="display:flex;gap:10px;align-items:center;"><span class="avatar" style="width:32px;height:32px;"></span><span style="font-size:13.5px;font-weight:600;">{{ review.author }}</span></span><span class="score">{{ review.score }} / 10</span></summary>
+      <p>"{{ review.text }}"</p>
+    </details>{% endfor %}
+    {% if user.is_authenticated %}<form class="comment-form" action="{% url 'create_review' slug=restaurant_obj.slug %}" method="post">{% csrf_token %}<h3 data-i18n="writeComment">Write a comment</h3><textarea name="text" data-i18n-placeholder="shareExperience" required placeholder="Share your experience"></textarea><div class="comment-form-row"><input name="score" type="number" min="0" max="10" step="0.1" value="9.0" required><button class="btn btn-rust" data-i18n="publish" type="submit">Publish</button></div></form>{% else %}<a class="btn btn-rust" data-i18n="loginToComment" href="{% url 'login' %}?next={{ request.path }}">Log in to comment</a>{% endif %}
+  </div>
+
+  <h2 data-i18n="dishGallery" style="font-size:19px;padding:0 18px;margin-bottom:14px;">Dish Gallery</h2>
+  <div class="m-gallery">
+    <div class="ph food1" data-label="Tagliatelle"></div>
+    <div class="ph food2" data-label="Focaccia, honey"></div>
+  </div>
+
+  <div class="m-block">
+    <h2 data-i18n="reserveTable">Reserve a Table</h2>
+    <form class="reservation-form" action="{% url 'restaurant_detail' slug=restaurant_obj.slug %}" method="post">
+      {% csrf_token %}
+      {% if reservation_success %}<p class="form-success">Reservation confirmed.</p>{% endif %}
+      {% if reservation_error %}<p class="form-error">{{ reservation_error }}</p>{% endif %}
+      <div class="m-form-row">
+        <label class="m-form-field"><span data-i18n="date">Date</span><input type="date" name="date" required></label>
+        <label class="m-form-field"><span data-i18n="time">Time</span><input type="time" name="time" required></label>
+      </div>
+      <label class="m-form-field m-guests-field"><span>Guests</span><select name="guests"><option value="1">1</option><option value="2" selected>2</option><option value="3">3</option><option value="4">4</option><option value="5">5+</option></select></label>
+      <button class="btn btn-rust" data-i18n="confirmReservation" type="submit">Confirm Reservation</button>
+    </form>
+  </div>
+
+  <div class="m-pad-bottom"></div>
+{% endblock %}
+
+{% block content %}
+  <div class="ph {{ restaurant_obj.image_class }} rhero" data-label="{{ restaurant_obj.name }} dining room">
+    <div class="overlay"></div>
+    <div class="wrap rhero-content">
+      <div class="tag-row">
+        <span class="tag rated"><span data-i18n="criticsRated">CRITICS RATED</span> {{ restaurant_obj.rating }}/5</span>
+        <span class="tag michelin">{{ restaurant_obj.price }}</span>
+      </div>
+      <h1>{{ restaurant_obj.name }}</h1>
+      <div class="sub"><span data-cuisine="{{ restaurant_obj.cuisine }}">{{ restaurant_obj.cuisine }}</span> <span>•</span> <span data-i18n="priceLabel">Price:</span> {{ restaurant_obj.price }} <span>•</span> {{ restaurant_obj.location }}</div>
+    </div>
+  </div>
+
+  <div class="wrap detail-grid">
+    <div class="detail-main">
+      <h2 data-i18n="criticsReviews">Critics' Written Reviews</h2>
+
+      {% for review in reviews %}<details class="review-accordion review-card"{% if forloop.first %} open{% endif %}>
+        <summary class="review-top"><span class="reviewer"><span class="avatar"></span><span><span class="name">{{ review.author }}</span><span class="role">{{ review.role }}</span></span></span><span class="score">{{ review.score }} / 10</span></summary>
+        <p>"{{ review.text }}"</p>
+        {% if review.user_id == user.id %}<div class="review-actions"><details><summary>Edit</summary><form action="{% url 'edit_review' review_id=review.id %}" method="post">{% csrf_token %}<textarea name="text" required>{{ review.text }}</textarea><input name="score" type="number" min="0" max="10" step="0.1" value="{{ review.score }}" required><button class="btn btn-dark" type="submit">Save</button></form></details><form action="{% url 'delete_review' review_id=review.id %}" method="post">{% csrf_token %}<button class="text-button" type="submit">Delete</button></form></div>{% endif %}
+      </details>{% endfor %}
+      {% if user.is_authenticated %}<form class="comment-form" action="{% url 'create_review' slug=restaurant_obj.slug %}" method="post">{% csrf_token %}<h3 data-i18n="writeComment">Write a comment</h3><textarea name="text" data-i18n-placeholder="shareExperience" required placeholder="Share your experience"></textarea><div class="comment-form-row"><input name="score" type="number" min="0" max="10" step="0.1" value="9.0" required><button class="btn btn-rust" data-i18n="publish" type="submit">Publish</button></div></form>{% else %}<a class="btn btn-rust" data-i18n="loginToComment" href="{% url 'login' %}?next={{ request.path }}">Log in to comment</a>{% endif %}
+
+      <h2 data-i18n="tableGallery" style="margin-top:44px;">Table Gallery</h2>
+      <div class="gallery-row">
+        <div class="ph food1" data-label="Hearth fire"></div>
+        <div class="ph food4" data-label="Plated dessert"></div>
+        <div class="ph food5" data-label="Bar cocktail"></div>
+      </div>
+
+      <div class="menu-card card">
+        <h2 data-i18n="menuHighlights" style="font-size:22px;margin-bottom:6px;">Menu Highlights</h2>
+        <div class="menu-row">
+          <div><div class="name">Salt-Baked Heritage Sunchokes</div><div class="desc">Smoked hazelnut butter, pickled ramps, crispy mountain moss</div></div>
+          <div class="price">$22</div>
+        </div>
+        <div class="menu-row">
+          <div><div class="name">Dry-Aged Ribeye over Oak</div><div class="desc">45-day bone-in ribeye, bone marrow emulsion, hearth-charred greens</div></div>
+          <div class="price">$75</div>
+        </div>
+        <div class="menu-row">
+          <div><div class="name">Smoked Birch-Sap Ice Cream</div><div class="desc">Birch oil, wood-fired pear tartlet, candied pine needles</div></div>
+          <div class="price">$16</div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <form class="book-card reservation-form" action="{% url 'restaurant_detail' slug=restaurant_obj.slug %}" method="post">
+        {% csrf_token %}
+        {% if reservation_success %}<p class="form-success">Reservation confirmed.</p>{% endif %}
+        {% if reservation_error %}<p class="form-error">{{ reservation_error }}</p>{% endif %}
+        <h3 data-i18n="bookYourTable">Book your table</h3>
+        <div class="note" data-i18n="reservedInstantly">Reserved instantly via our integrated partner OpenSeat.</div>
+        <hr>
+        <label class="select-row"><span data-i18n="guests">Guests</span><select name="guests"><option value="1">1</option><option value="2" selected>2</option><option value="3">3</option><option value="4">4</option><option value="5">5+</option></select></label>
+        <label class="select-row"><span data-i18n="date">Date</span><input type="date" name="date" required></label>
+        <label class="select-row"><span data-i18n="time">Time</span><input type="time" name="time" required></label>
+        <button class="btn btn-rust" data-i18n="reserveTable" type="submit">Reserve a Table</button>
+      </form>
+      <div class="loc-card card">
+        <div class="head" data-i18n="locationHours">LOCATION &amp; HOURS</div>
+        <iframe class="map-frame" title="{{ restaurant_obj.name }} map" src="https://www.openstreetmap.org/export/embed.html?layer=mapnik&amp;marker={{ restaurant_obj.latitude }},{{ restaurant_obj.longitude }}"></iframe>
+        <div class="addr">{{ restaurant_obj.location }}, New York, NY</div>
+        <a class="card-map-link" data-i18n="openMap" href="https://www.openstreetmap.org/?mlat={{ restaurant_obj.latitude }}&amp;mlon={{ restaurant_obj.longitude }}#map=16/{{ restaurant_obj.latitude }}/{{ restaurant_obj.longitude }}" target="_blank" rel="noopener">Open in OpenStreetMap</a>
+        <div class="hours" data-i18n="dailyDinner">Daily dinner service: 5:00 PM – 11:00 PM</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap section" style="border-top:1px solid var(--line);padding-bottom:80px;">
+    <h2 data-i18n="otherHighlyRated" style="margin-bottom:26px;">Other Highly Rated Spots Nearby</h2>
+    <div class="nearby-grid">
+      <div class="nearby-card card">
+        <div class="ph food4" data-label="French bistro plate"></div>
+        <div>
+          <div class="cat">FRENCH MODERN</div>
+          <h4>Mercer Brasserie</h4>
+          <div class="stars">★★★★☆ <span style="color:var(--ink);font-weight:600;">4.6</span></div>
+        </div>
+      </div>
+      <div class="nearby-card card">
+        <div class="ph food3" data-label="Oyster plate"></div>
+        <div>
+          <div class="cat">SEAFOOD / OYSTER LOUNGE</div>
+          <h4>The Raw Bar Co.</h4>
+          <div class="stars">★★★★☆ <span style="color:var(--ink);font-weight:600;">4.7</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

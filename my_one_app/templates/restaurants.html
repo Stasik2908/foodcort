@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+
+{% block title %}Critics' Restaurant Index — Savora{% endblock %}
+
+{% block mobile_content %}
+  <div class="m-topbar" style="justify-content:flex-start;">
+    <h1>Explore Index</h1>
+  </div>
+
+  <form class="m-search" action="{% url 'restaurants' %}" method="get">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input type="search" name="q" value="{{ filters.q }}" data-i18n-placeholder="searchRestaurants" placeholder="Search Soho, French, Omakase..." aria-label="Search restaurants">
+    <button data-i18n="search" type="submit">Search</button>
+  </form>
+
+  <div class="m-filters">
+    <details class="filter-menu"><summary class="m-pill">Cuisine: {{ filters.cuisine|default:'All' }}</summary><div class="filter-options"><a href="?cuisine=Italian">Italian</a><a href="?cuisine=Japanese">Japanese</a><a href="?cuisine=French">French</a><a href="{% url 'restaurants' %}">All</a></div></details>
+    <details class="filter-menu"><summary class="m-pill">Price: {{ filters.price|default:'All' }}</summary><div class="filter-options"><a href="?price=$$">$$</a><a href="?price=$$$">$$$</a><a href="?price=$$$$">$$$$</a><a href="?price=$$$$$">$$$$$</a></div></details>
+    <details class="filter-menu"><summary class="m-pill">Rating: {{ filters.rating|default:'All' }}</summary><div class="filter-options"><a href="?rating=4.0">4.0+</a><a href="?rating=4.5">4.5+</a><a href="?rating=4.8">4.8+</a></div></details>
+  </div>
+
+  <div class="m-showing"><span><span data-i18n="showing">Showing</span> {{ page_obj.paginator.count }} <span data-i18n="verifiedSpots">Verified Spots</span></span><button class="m-map-btn" type="button" data-map-toggle><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 4 3 6.5v14L9 18l6 2.5 6-2.5v-14L15 6.5 9 4Zm0 0v14m6-11.5V17"/></svg> <span data-i18n="mapView">Map View</span></button></div>
+  <div class="map-preview" data-map-preview>Map view: Soho, Midtown and nearby restaurants</div>
+
+  {% for restaurant in page_obj %}
+    <div class="m-list-card">
+      <div class="ph {{ restaurant.image_class }}" data-label="{{ restaurant.name }}"></div>
+      <div class="body">
+        <div class="toprow"><h3>{{ restaurant.name }}</h3><span class="stars">★ <b>{{ restaurant.rating }}</b></span></div>
+        <div class="sub">{{ restaurant.cuisine }} • {{ restaurant.location }} • {{ restaurant.price }}</div>
+        <a class="btn btn-dark m-btn" data-i18n="viewDetails" href="{{ restaurant.get_absolute_url }}" style="width:100%;justify-content:center;">View Details</a>
+        <a class="card-map-link" href="https://www.openstreetmap.org/?mlat={{ restaurant.latitude }}&amp;mlon={{ restaurant.longitude }}#map=16/{{ restaurant.latitude }}/{{ restaurant.longitude }}" target="_blank" rel="noopener">{{ restaurant.latitude }}, {{ restaurant.longitude }}</a>
+      </div>
+    </div>
+  {% endfor %}
+
+  <nav class="pagination mobile-pagination" aria-label="Restaurant pages">
+    {% for page_number in page_obj.paginator.page_range %}
+      <a class="page-num{% if page_number == page_obj.number %} active{% endif %}" href="?{% if query_string %}{{ query_string }}&amp;{% endif %}page={{ page_number }}"{% if page_number == page_obj.number %} aria-current="page"{% endif %}>{{ page_number }}</a>
+    {% endfor %}
+  </nav>
+
+  <div class="m-pad-bottom"></div>
+{% endblock %}
+
+{% block content %}
+  <div class="wrap index-head">
+    <h1>Critics' Restaurant Index</h1>
+    <p>Verified independent evaluations paired with live reservation access.</p>
+  </div>
+
+  <div class="wrap">
+    <div class="filter-bar">
+      <details class="filter-menu"><summary class="filter-pill">Cuisine: {{ filters.cuisine|default:'All' }}</summary><div class="filter-options"><a href="?cuisine=Italian">Italian</a><a href="?cuisine=Japanese">Japanese</a><a href="?cuisine=French">French</a><a href="{% url 'restaurants' %}">All</a></div></details>
+      <details class="filter-menu"><summary class="filter-pill">Price: {{ filters.price|default:'All' }}</summary><div class="filter-options"><a href="?price=$$">$$</a><a href="?price=$$$">$$$</a><a href="?price=$$$$">$$$$</a><a href="?price=$$$$$">$$$$$</a></div></details>
+      <details class="filter-menu"><summary class="filter-pill">Rating: {{ filters.rating|default:'All' }}</summary><div class="filter-options"><a href="?rating=4.0">4.0+</a><a href="?rating=4.5">4.5+</a><a href="?rating=4.8">4.8+</a></div></details>
+      <details class="filter-menu"><summary class="filter-pill">Location: {{ filters.location|default:'All' }}</summary><div class="filter-options"><a href="?location=Soho">Soho</a><a href="?location=Midtown">Midtown</a><a href="?location=Brooklyn">Brooklyn</a></div></details>
+      <span class="spacer"></span>
+      <button class="map-btn" type="button" data-map-toggle>▤ Show Map View</button>
+    </div>
+    <div class="map-preview" data-map-preview>Map view: Soho, Midtown and nearby restaurants</div>
+
+    <div class="index-grid">
+      <div>
+        {% for restaurant in page_obj %}
+          <div class="listing-card">
+            <div class="ph {{ restaurant.image_class }}" data-label="{{ restaurant.name }}"></div>
+            <div class="body">
+              <div class="listing-top"><span class="cat">{{ restaurant.cuisine }}</span><span class="price">{{ restaurant.price }}</span></div>
+              <h3><a href="{{ restaurant.get_absolute_url }}">{{ restaurant.name }}</a></h3>
+              <div class="desc">{{ restaurant.description }}</div>
+              <div class="listing-foot"><span class="stars">★★★★☆ <span style="color:var(--ink);font-weight:600;">{{ restaurant.rating }}</span></span><a class="btn btn-dark" data-i18n="quickReserve" href="{{ restaurant.get_absolute_url }}">Quick Reserve</a></div>
+              <a class="card-map-link" href="https://www.openstreetmap.org/?mlat={{ restaurant.latitude }}&amp;mlon={{ restaurant.longitude }}#map=16/{{ restaurant.latitude }}/{{ restaurant.longitude }}" target="_blank" rel="noopener">Map: {{ restaurant.latitude }}, {{ restaurant.longitude }}</a>
+            </div>
+          </div>
+        {% endfor %}
+
+        <div class="pagination">
+          {% for page_number in page_obj.paginator.page_range %}
+            <a class="page-num{% if page_number == page_obj.number %} active{% endif %}" href="?{% if query_string %}{{ query_string }}&amp;{% endif %}page={{ page_number }}"{% if page_number == page_obj.number %} aria-current="page"{% endif %}>{{ page_number }}</a>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div>
+        <div class="featured-card">
+          <div class="label">FEATURED CRITIC PICK</div>
+          <div class="ph food3" data-label="Raw bar presentation"></div>
+          <h3>The Seafood Vanguard</h3>
+          <div class="quote">"An incredible raw bar focusing exclusively on native bivalves and hand-harvested kelp products from Maine's cold tides."</div>
+          <div class="who"><div class="avatar"></div><div><div class="name">Clara Dubois</div><div class="role">Bistronomy Writer</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="height:80px;"></div>
+{% endblock %}
+
+{% block extra_head %}
+  {{ block.super }}
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.filter-menu').forEach((menu) => {
+        const summary = menu.querySelector('summary');
+        menu.querySelectorAll('.filter-options button').forEach((option) => {
+          option.addEventListener('click', () => {
+            summary.textContent = `${summary.textContent.split(':')[0]}: ${option.textContent}`;
+            summary.classList.add('active');
+            menu.open = false;
+          });
+        });
+        menu.addEventListener('toggle', () => {
+          if (!menu.open) return;
+          document.querySelectorAll('.filter-menu[open]').forEach((other) => {
+            if (other !== menu) other.open = false;
+          });
+        });
+      });
+      document.querySelectorAll('[data-map-toggle]').forEach((button) => {
+        button.addEventListener('click', () => {
+          document.querySelectorAll('[data-map-preview]').forEach((map) => map.classList.toggle('visible'));
+        });
+      });
+    });
+  </script>
+{% endblock %}

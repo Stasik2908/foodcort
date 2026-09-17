@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+
+{% block title %}The Silent Ritual of Hand-Cut Soba — Savora{% endblock %}
+
+{% block mobile_content %}
+  <div class="m-topbar">
+    <a class="m-back" href="{% url 'home' %}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></a>
+    <h1 style="font-size:17px;">Critics' Journal</h1>
+    <div class="m-avatar"></div>
+  </div>
+
+  <div style="padding:18px 18px 0;">
+    <span class="eyebrow" style="margin-bottom:14px;">CULINARY HERITAGE</span>
+    <h1 style="font-size:26px;line-height:1.25;margin-bottom:16px;">The Art of Slow Fermentation: Why Wild Yeast Rules Grains</h1>
+    <div style="display:flex;gap:10px;align-items:center;margin-bottom:18px;">
+      <div class="avatar" style="width:34px;height:34px;"></div>
+      <div><div style="font-size:13.5px;font-weight:600;">Elena Rostova</div><div style="font-size:12px;color:var(--ink-soft);">Senior Critic • Oct 14, 2024</div></div>
+    </div>
+  </div>
+  <div class="ph hands" data-label="Kneading sourdough" style="height:220px;margin:0 18px 20px;border-radius:12px;"></div>
+
+  <div style="padding:0 18px;">
+    <p style="font-size:14.5px;line-height:1.75;color:var(--ink-soft);margin-bottom:20px;">In an era of rapid convenience, the revival of slow-fermented wild yeast starters is more than a culinary trend — it is a return to chemical honesty. Modern industrial baking forces dough to rise in under an hour, sacrificing digestibility.</p>
+    <blockquote style="font-size:16px;margin:0 0 20px;">"Wild fermentation is not a recipe; it is a negotiation with the micro-climate of your kitchen."</blockquote>
+    <p style="font-size:14.5px;line-height:1.75;color:var(--ink-soft);margin-bottom:6px;">When we allow wild lactobacilli to feast slowly over 36 hours, they pre-digest the gluten. The result is a bread that doesn't just sit in the stomach; it sings.</p>
+  </div>
+
+  <div class="m-mention-card">
+    <div class="label">MENTIONED IN ARTICLE</div>
+    <div class="row"><div class="ph food2" data-label="Pizza"></div><div><h4>Stella Trattoria</h4><div class="stars">★ <b>4.9</b></div></div></div>
+    <a class="btn btn-dark" href="{% url 'restaurant' %}" style="width:100%;justify-content:center;">Reserve a Table</a>
+  </div>
+
+  <div class="m-pad-bottom"></div>
+{% endblock %}
+
+{% block content %}
+  <div class="wrap article-head">
+    <span class="eyebrow">CULINARY ESSAYS • KYOTO DISPATCH</span>
+    <h1>The Silent Ritual of Hand-Cut Soba in Northern Kyoto</h1>
+    <div class="art-byline">
+      <div class="left">
+        <div class="avatar"></div>
+        <div><div class="name" style="font-size:14px;font-weight:600;">Marcus Vance</div><div class="role" style="font-size:12px;color:var(--ink-soft);">Chief Food Critic, Savora</div></div>
+      </div>
+      <div class="right">May 12, 2025<br>8 Minute Read • 14 Comments</div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="ph hands art-hero" data-label="Kneading buckwheat dough by hand"></div>
+
+    <div class="article-grid">
+      <div class="article-body">
+        <p>For three centuries, buckwheat has occupied a spiritual role in the highlands of Kyoto Prefecture. While the city celebrates lavish kaiseki dinners, true culinary depth is frequently discovered in the unpretentious wood-slatted workshops of local soba master artisans. Soba is not simply food; it is an examination of precision tension, structural mechanics, and pure seasonal humility.</p>
+
+        <blockquote>
+          "Mastering the soba knife requires several lifetimes. To cut a single noodle at exactly one millimeter in width, without breaking the gluten bond of pure buckwheat, is to balance on the edge of chaos."
+          <cite>— CHEF KENJI TAKAHASHI</cite>
+        </blockquote>
+
+        <p>The process begins at sunrise. Whole buckwheat grains, sourced exclusively from organic smallholder farms in Hokkaido, are processed slowly using volcanic granite stones. Millstone heat is the mortal enemy of buckwheat flavor; the grinding speed must never exceed fifteen rotations per minute. What remains is a pale-green flour of staggering aromatic density.</p>
+
+        <div class="ph noodles" data-label="Cut soba, resting tray"></div>
+
+        <p>When tasting pure 'Ju-wari' (100% buckwheat) soba, one avoids the classic dashi dip initially. The first bite belongs completely to the land—slightly earthy, nutty, with a structural chew that demands slow appreciation. It remains a stark alternative to the hyper-processed modern wheat products of our age.</p>
+      </div>
+
+      <div>
+        <div class="sidebar-card">
+          <div class="ph food5" data-label="Soban-Ken workshop"></div>
+          <div class="inner">
+            <div class="cat">CRITICS' TOP PICK/KYOTO</div>
+            <h4>Soban-Ken Masters</h4>
+            <div class="stars" style="margin-bottom:12px;">★★★★☆ <span style="color:var(--ink);font-weight:600;">4.9</span></div>
+            <p>The exact workshop highlighted in Marcus Vance's editorial dispatch.</p>
+            <div class="foot"><span style="color:var(--ink-soft);font-weight:400;">via OpenSeat</span><a href="{% url 'restaurant' %}">Book Table →</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="comment-box" style="max-width:760px;">
+      <h3>Join the Conversation (14 Comments)</h3>
+      <form class="comment-input" action="" method="get">
+        <textarea name="comment" placeholder="Add a respectful critique..." required></textarea>
+        <div class="row"><span class="hint">Markdown supported</span><button class="btn btn-dark">Post Comment</button></div>
+      </form>
+      <div class="comment">
+        <div class="avatar" style="width:34px;height:34px;"></div>
+        <div>
+          <span class="name">Sarah Jenkins</span><span class="time">2 hours ago</span>
+          <p>An incredible tribute, Marcus. Visited Chef Kenji last autumn—the aroma of the buckwheat boiling water (そば湯) at the end of the meal is something I'll never forget. Thanks for documenting this!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap section" style="border-top:1px solid var(--line);padding-bottom:80px;">
+    <h2 style="margin-bottom:26px;">Keep Reading</h2>
+    <div class="keep-grid">
+      <div>
+        <div class="ph food5" data-label="Fermented salt jars"></div>
+        <div class="meta">5 MIN READ</div>
+        <h4>The Fermented Salt of the Baltic Sea</h4>
+      </div>
+      <div>
+        <div class="ph food2" data-label="Heirloom maize"></div>
+        <div class="meta">10 MIN READ</div>
+        <h4>Reclaiming Oaxacan Heirloom Maize</h4>
+      </div>
+      <div>
+        <div class="ph food4" data-label="Natural wine pour"></div>
+        <div class="meta">7 MIN READ</div>
+        <h4>Understanding Natural Wine Faults</h4>
+      </div>
+    </div>
+  </div>
+{% endblock %}

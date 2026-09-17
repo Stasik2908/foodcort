@@ -1,0 +1,163 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}Savora{% endblock %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'style.css' %}">
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+  <div class="mobile-view">
+    {% block mobile_top %}
+      <div class="m-topbar">
+        <span class="m-logo">Savora<span class="dot">·</span></span>
+        <h1 data-i18n="journalTitle">Savora Journal</h1>
+        <div class="m-avatar"></div>
+      </div>
+    {% endblock %}
+
+    {% block mobile_content %}{% endblock %}
+
+    {% block mobile_nav %}
+      <nav class="m-bottomnav">
+        <a class="m-navitem active" href="{% url 'home' %}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v9a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1v-9"/></svg><span data-i18n="home">Home</span></a>
+        <a class="m-navitem" href="{% url 'restaurants' %}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><span data-i18n="explore">Explore</span></a>
+        <a class="m-navitem" href="{% url 'profile' %}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3h12a1 1 0 0 1 1 1v17l-7-4-7 4V4a1 1 0 0 1 1-1Z"/></svg><span data-i18n="bookmarks">Bookmarks</span></a>
+        <a class="m-navitem" href="{% url 'profile' %}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4.5 5-6.5 8-6.5s6.5 2 8 6.5"/></svg><span data-i18n="profile">Profile</span></a>
+      </nav>
+    {% endblock %}
+  </div>
+
+  <header class="site desktop-only">
+    <div class="wrap nav-row">
+      <div class="logo"><span class="s">S</span><span>SAVORA</span></div>
+      <nav class="links">
+        <a href="{% url 'home' %}" data-i18n="home">Home</a>
+        <a href="{% url 'restaurants' %}" data-i18n="exploreRestaurants">Explore Restaurants</a>
+        <a href="{% url 'article' %}" data-i18n="criticsJournal">Critics' Journal</a>
+        <a href="{% url 'profile' %}" data-i18n="about">Profile</a>
+      </nav>
+      <div class="nav-right">
+        <div class="icon-btn">
+          <a href="{% url 'restaurants' %}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></a>
+        </div>
+        {% if request.user.is_authenticated %}
+          <span class="nav-user">{{ request.user.username }}</span>
+          <form action="{% url 'logout' %}" method="post" class="inline-form">{% csrf_token %}<button class="btn btn-light" data-i18n="logout" type="submit">Log out</button></form>
+        {% else %}
+          <a class="btn btn-light" data-i18n="login" href="{% url 'login' %}">Log in</a>
+          <a class="btn btn-dark" data-i18n="register" href="{% url 'register' %}">Register</a>
+        {% endif %}
+        <a class="btn btn-dark" data-i18n="bookTable" href="{% url 'restaurants' %}">Book Table</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="desktop-only">
+    {% block content %}{% endblock %}
+  </div>
+
+  <footer class="site desktop-only">
+    <div class="wrap footer-top">
+      <div class="footer-brand">
+        <h3>Savora</h3>
+        <p>A thoughtful culinary chronicle mapping fine dining, independent critics' reviews, and trusted table reservations. Published seasonally.</p>
+      </div>
+      <div class="footer-cols">
+        <div class="footer-col">
+          <span class="head" data-i18n="explore">EXPLORE</span>
+          <a>Top 100 Restaurants</a>
+          <a>Critics' Choice</a>
+          <a>New Openings</a>
+        </div>
+        <div class="footer-col">
+          <span class="head" data-i18n="journal">JOURNAL</span>
+          <a>Latest Essays</a>
+          <a>Chef Interviews</a>
+          <a>Culinary Trends</a>
+        </div>
+      </div>
+    </div>
+    <div class="wrap footer-bottom">
+      <span>© 2025 Savora Magazine Publishing Group. All rights reserved.</span>
+      <div class="lang-toggle" aria-label="Language and theme settings">
+        <button class="pill active" type="button" data-language="en" aria-pressed="true">EN</button>
+        <button class="pill" type="button" data-language="ru" aria-pressed="false">RU</button>
+        <button class="round" type="button" data-theme="light" aria-label="Light theme" aria-pressed="false">☀</button>
+        <button class="round" type="button" data-theme="dark" aria-label="Dark theme" aria-pressed="false">☾</button>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (() => {
+      const translations = {
+        en: { home: 'Home', explore: 'Explore', bookmarks: 'Bookmarks', profile: 'Profile', exploreRestaurants: 'Explore Restaurants', criticsJournal: "Critics' Journal", about: 'About', bookTable: 'Book Table', journal: 'JOURNAL', mySavora: 'My Savora', memberSince: 'Savora Member since 2024', gourmand: 'GOURMAND LEVEL 3', bookmarked: 'Bookmarked', visitsMade: 'Visits Made', reviewsWritten: 'Reviews Written', bookmarksHistory: 'BOOKMARKS & HISTORY', savedRestaurants: 'Saved Restaurants', readingList: 'Reading List', appPreferences: 'APP PREFERENCES', language: 'Language', interfaceMode: 'Interface Mode', lightMode: 'Light', darkMode: 'Dark', criticsVerdicts: "Critics' Verdicts", criticsReviews: "Critics' Written Reviews", rating: 'RATING', critics: 'CRITICS', location: 'LOCATION', writeComment: 'Write a comment', shareExperience: 'Share your experience', publish: 'Publish', reserveTable: 'Reserve a Table', confirmReservation: 'Confirm Reservation', bookYourTable: 'Book your table', reservedInstantly: 'Reserved instantly via our integrated partner OpenSeat.', guests: 'Guests', date: 'Date', time: 'Time', reservationConfirmed: 'Reservation confirmed.', validReservation: 'Please choose a valid date, time, and number of guests.', tableGallery: 'Table Gallery', menuHighlights: 'Menu Highlights', locationHours: 'LOCATION & HOURS', openMap: 'Open in OpenStreetMap', edit: 'Edit', save: 'Save', delete: 'Delete', loginToComment: 'Log in to comment', viewDetails: 'View Details', quickReserve: 'Quick Reserve', search: 'Search', mapView: 'Map View', showing: 'Showing', verifiedSpots: 'Verified Spots', searchRestaurants: 'Search restaurants...' },
+        ru: { home: 'Главная', explore: 'Обзор', bookmarks: 'Избранное', profile: 'Профиль', exploreRestaurants: 'Рестораны', criticsJournal: 'Журнал критиков', about: 'Профиль', bookTable: 'Забронировать столик', journal: 'ЖУРНАЛ', mySavora: 'Мой Savora', memberSince: 'Участник Savora с 2024 года', gourmand: 'ГУРМАН, УРОВЕНЬ 3', bookmarked: 'В избранном', visitsMade: 'Посещения', reviewsWritten: 'Отзывы', bookmarksHistory: 'ЗАКЛАДКИ И ИСТОРИЯ', savedRestaurants: 'Сохранённые рестораны', readingList: 'Список чтения', appPreferences: 'НАСТРОЙКИ ПРИЛОЖЕНИЯ', language: 'Язык', interfaceMode: 'Режим интерфейса', lightMode: 'Светлая тема', darkMode: 'Тёмная тема', criticsVerdicts: 'Вердикты критиков', criticsReviews: 'Отзывы критиков', rating: 'РЕЙТИНГ', critics: 'КРИТИКИ', location: 'ЛОКАЦИЯ', writeComment: 'Оставить комментарий', shareExperience: 'Расскажите о своих впечатлениях', publish: 'Опубликовать', reserveTable: 'Забронировать столик', confirmReservation: 'Подтвердить бронирование', bookYourTable: 'Забронировать столик', reservedInstantly: 'Мгновенное бронирование через OpenSeat.', guests: 'Гости', date: 'Дата', time: 'Время', reservationConfirmed: 'Бронирование подтверждено.', validReservation: 'Выберите корректные дату, время и количество гостей.', tableGallery: 'Галерея столиков', menuHighlights: 'Основные блюда', locationHours: 'АДРЕС И ЧАСЫ РАБОТЫ', openMap: 'Открыть в OpenStreetMap', edit: 'Изменить', save: 'Сохранить', delete: 'Удалить', loginToComment: 'Войдите, чтобы оставить комментарий', viewDetails: 'Подробнее', quickReserve: 'Забронировать', search: 'Поиск', mapView: 'Карта', showing: 'Показано', verifiedSpots: 'проверенных мест', searchRestaurants: 'Поиск ресторанов...' }
+      };
+      Object.assign(translations.en, { journalTitle: 'Savora Journal', login: 'Log in', register: 'Register', logout: 'Log out', loginTitle: 'Log in', newToSavora: 'New to Savora?', createAccount: 'Create an account', alreadyRegistered: 'Already registered?', criticsRated: 'CRITICS RATED', priceLabel: 'Price:', dishGallery: 'Dish Gallery', otherHighlyRated: 'Other Highly Rated Spots Nearby', dailyDinner: 'Daily dinner service: 5:00 PM – 11:00 PM' });
+      Object.assign(translations.ru, { journalTitle: 'Журнал Savora', login: 'Войти', register: 'Регистрация', logout: 'Выйти', loginTitle: 'Вход', newToSavora: 'Впервые в Savora?', createAccount: 'Создать аккаунт', alreadyRegistered: 'Уже зарегистрированы?', criticsRated: 'РЕЙТИНГ КРИТИКОВ', priceLabel: 'Цена:', dishGallery: 'Галерея блюд', otherHighlyRated: 'Другие рестораны с высоким рейтингом', dailyDinner: 'Ежедневный ужин: 17:00–23:00' });
+      const cuisineTranslations = {
+        'Contemporary Wood-Fired': 'Современная кухня на дровах',
+        'Modern Japanese Omakase': 'Современное японское омакасе',
+        'Traditional Northern Italian': 'Традиционная кухня Северной Италии',
+        'Sushi Traditional': 'Традиционные суши',
+        'Seafood Italian': 'Итальянская кухня и морепродукты',
+        'French Modern': 'Современная французская кухня',
+        'Seafood / Oyster Lounge': 'Морепродукты и устрицы',
+        'New American': 'Новая американская кухня',
+        'Seasonal Vegetables': 'Сезонные овощи',
+        'Italian Wine Bar': 'Итальянский винный бар',
+        'Nordic Inspired': 'Скандинавская кухня',
+        'Classic French': 'Классическая французская кухня'
+      };
+      const root = document.documentElement;
+      const body = document.body;
+      const languageButtons = document.querySelectorAll('[data-language]');
+      const themeButtons = document.querySelectorAll('[data-theme]');
+
+      function setLanguage(language) {
+        root.lang = language === 'ru' ? 'ru' : 'en';
+        document.querySelectorAll('[data-i18n]').forEach((element) => {
+          const key = element.dataset.i18n;
+          if (translations[language][key]) element.textContent = translations[language][key];
+        });
+        document.querySelectorAll('[data-i18n-placeholder]').forEach((element) => {
+          const key = element.dataset.i18nPlaceholder;
+          if (translations[language][key]) element.placeholder = translations[language][key];
+        });
+        document.querySelectorAll('[data-cuisine]').forEach((element) => {
+          element.textContent = language === 'ru' ? (cuisineTranslations[element.dataset.cuisine] || element.dataset.cuisine) : element.dataset.cuisine;
+        });
+        languageButtons.forEach((button) => {
+          const active = button.dataset.language === language;
+          button.classList.toggle('active', active);
+          button.setAttribute('aria-pressed', active);
+        });
+        localStorage.setItem('savora-language', language);
+      }
+
+      function setTheme(theme) {
+        const dark = theme === 'dark';
+        body.classList.toggle('dark-theme', dark);
+        themeButtons.forEach((button) => {
+          const active = button.dataset.theme === theme;
+          button.classList.toggle('active', active);
+          button.setAttribute('aria-pressed', active);
+        });
+        localStorage.setItem('savora-theme', theme);
+      }
+
+      languageButtons.forEach((button) => button.addEventListener('click', () => setLanguage(button.dataset.language)));
+      themeButtons.forEach((button) => button.addEventListener('click', () => setTheme(button.dataset.theme)));
+      setLanguage(localStorage.getItem('savora-language') || 'en');
+      setTheme(localStorage.getItem('savora-theme') || 'light');
+    })();
+  </script>
+</body>
+</html>

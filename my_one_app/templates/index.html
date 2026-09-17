@@ -1,0 +1,195 @@
+{% extends 'base.html' %}
+
+{% block title %}Savora — Culinary Chronicle{% endblock %}
+
+{% block mobile_content %}
+  <form class="m-search" action="{% url 'restaurants' %}" method="get">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input type="search" name="q" data-i18n-placeholder="searchRestaurants" placeholder="Search cuisines, critics' picks..." aria-label="Search restaurants">
+    <button data-i18n="search" type="submit">Search</button>
+  </form>
+
+  <div class="m-hero-card">
+    <div class="ph food1" data-label="Margherita, wood-fired crust"></div>
+    <div class="body">
+      <div class="toprow"><span class="badge" style="background:rgba(193,80,46,.12);color:var(--rust);">CRITIC SELECTION</span><span class="stars">★ <b>4.9</b></span></div>
+      <h3>Stella Trattoria: Wood-Fired Mastery in Soho</h3>
+      <div class="quote">"The wood-fired crust at Stella is a masterclass in hydration — charred, cloud-like, and wonderfully sour."</div>
+      <div class="who"><div class="avatar" style="width:32px;height:32px;"></div><div><div style="font-weight:600;">Elena Rostova</div><div class="role">Lead Reviewer</div></div></div>
+    </div>
+  </div>
+
+  <div class="m-section-head"><h2>Gastronomic Journal</h2><a href="{% url 'article' %}">View All</a></div>
+  <div class="m-article-card">
+    <div class="ph food4" data-label="Copper pan, saucecraft"></div>
+    <div>
+      <div class="cat">FRENCH TECHNIQUE</div>
+      <h4>The Return of Classic French Saucecraft</h4>
+      <div class="meta">5 min read • By Marcus Vance</div>
+    </div>
+  </div>
+  <div class="m-article-card">
+    <div class="ph food5" data-label="Cider glass, orchard"></div>
+    <div>
+      <div class="cat">TRENDS</div>
+      <h4>Beyond Natural Wine: The New Wave Cider Makers</h4>
+      <div class="meta">8 min read • By Elena Rostova</div>
+    </div>
+  </div>
+
+  <div class="m-pad-bottom"></div>
+{% endblock %}
+
+{% block content %}
+  <div class="wrap hero">
+    <div class="hero-grid">
+      <div>
+        <span class="eyebrow">CRITIC'S CHOICE • FEATURED ESSAY</span>
+        <h1>The Poetics of Fire: How Wood-Fired Hearth Cooking Captured the City</h1>
+        <p class="lede">"In an age of precision temperature probes and high-tech induction, the culinary vanguard has embraced the volatile, erratic charm of burning oak." Read our review of Hearth &amp; Co., where flame is treated as the primary ingredient.</p>
+        <div class="byline">
+          <div class="avatar"></div>
+          <div>
+            <div class="name">Marcus Vance</div>
+            <div class="role">Chief Food Critic, Savora</div>
+          </div>
+        </div>
+        <div class="find-label">FIND YOUR NEXT RESERVATION</div>
+        <form class="search-row" action="{% url 'restaurants' %}" method="get" name="q">
+          <input type="search" name="q" placeholder="Search cuisines, Michelin star ratings, or neighborhoods..." aria-label="Search restaurants">
+          <button class="btn btn-dark" style="border-radius:0;">Search</button>
+        </form>
+      </div>
+      <div class="ph food1 hero-img" data-label="Wood-fired ribeye, cast iron"></div>
+    </div>
+  </div>
+
+  <div class="wrap section" style="border-top:1px solid var(--line);">
+    <div class="section-head">
+      <div>
+        <h2>Latest Blog Posts</h2>
+        <p>In-depth field reports and historical profiles written directly from our test kitchens.</p>
+      </div>
+      <div class="arrows" aria-label="Blog posts slider controls">
+        <button class="arrow-btn" type="button" data-slider-direction="prev" aria-label="Previous posts">‹</button>
+        <button class="arrow-btn" type="button" data-slider-direction="next" aria-label="Next posts">›</button>
+      </div>
+    </div>
+    <div class="blog-slider" data-slider>
+      <div class="blog-grid">
+      <div class="blog-card">
+        <div class="ph hands" data-label="Hand-cut soba"></div>
+        <div>
+          <div class="meta">8 MIN READ</div>
+          <h3 onclick="location.href='{% url 'article' %}'" style="cursor:pointer;">The Silent Ritual of Hand-Cut Soba in Northern Kyoto</h3>
+          <p>Deep in the mountains of Kyoto, buckwheat is milled on single-ton millstones. We document the dedicated artisans protecting centuries-old techniques.</p>
+        </div>
+      </div>
+      <div class="blog-card">
+        <div class="ph food5" data-label="Single-origin olive oil"></div>
+        <div>
+          <div class="meta">6 MIN READ</div>
+          <h3>Why Single-Origin Olive Oil is the New Wine</h3>
+          <p>An exploration of regional microclimates in Sicily and Tuscany, mapping how soil acidity and extraction speeds redefine top olive oil vintages.</p>
+        </div>
+      </div>
+      <div class="blog-card">
+        <div class="ph food4" data-label="Fermented salt jars"></div>
+        <div>
+          <div class="meta">5 MIN READ</div>
+          <h3>The Fermented Salt of the Baltic Sea</h3>
+          <p>Along the northern coast, patient fermentation turns sea salt and local herbs into a quiet signature of Baltic cooking.</p>
+        </div>
+      </div>
+      <div class="blog-card">
+        <div class="ph food2" data-label="Heirloom maize"></div>
+        <div>
+          <div class="meta">10 MIN READ</div>
+          <h3>Reclaiming Oaxacan Heirloom Maize</h3>
+          <p>Small farms are bringing ancestral corn varieties back to the table through careful cultivation and nixtamalization.</p>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap section" style="border-top:1px solid var(--line);">
+    <div class="section-head">
+      <div>
+        <h2>Trending Restaurants</h2>
+        <p>Curated weekly based on fresh critics' scores and table reservation volume.</p>
+      </div>
+      <a class="view-all" href="{% url 'restaurants' %}">View All 120 Restaurants →</a>
+    </div>
+    <div class="trend-grid">
+      <div class="trend-card">
+        <div class="ph food1" data-label="Tagliatelle, shaved truffle" onclick="location.href='{% url 'restaurant' %}'" style="cursor:pointer;"></div>
+        <div class="body">
+          <div class="trend-row"><span class="cat">WOOD-FIRED / CONTEMPORARY</span><span>$$$$</span></div>
+          <h3 onclick="location.href='{% url 'restaurant' %}'" style="cursor:pointer;">Hearth &amp; Co.</h3>
+          <div class="trend-foot"><span class="stars">★★★★☆ <span style="color:var(--ink);font-weight:600;">4.9</span></span><span class="badge">MICHELIN GUIDE</span></div>
+        </div>
+      </div>
+      <div class="trend-card">
+        <div class="ph interior" data-label="Omakase counter"></div>
+        <div class="body">
+          <div class="trend-row"><span class="cat">JAPANESE OMAKASE</span><span>$$$$$</span></div>
+          <h3>Nori Atelier</h3>
+          <div class="trend-foot"><span class="stars">★★★★☆ <span style="color:var(--ink);font-weight:600;">4.8</span></span><span class="badge">EDITORS' TOP PICK</span></div>
+        </div>
+      </div>
+      <div class="trend-card">
+        <div class="ph food3" data-label="Nordic plated salad"></div>
+        <div class="body">
+          <div class="trend-row"><span class="cat">NEW NORDIC / PLANT-BASED</span><span>$$$</span></div>
+          <h3>Verve &amp; Garden</h3>
+          <div class="trend-foot"><span class="stars">★★★★☆ <span style="color:var(--ink);font-weight:600;">4.7</span></span><span class="badge">SUSTAINABLE</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap section" style="border-top:1px solid var(--line);padding-bottom:80px;">
+    <h2 style="margin-bottom:10px;">Independent Critic Guild</h2>
+    <p style="color:var(--ink-soft);font-size:14px;margin-bottom:34px;">Our reviews are entirely self-funded to ensure zero corporate sponsorship bias.</p>
+    <div class="guild-grid">
+      <div class="guild-card card">
+        <div class="top"><div class="avatar"></div><div><div class="name">Elena Rostova</div><div class="spec">Fine Dining &amp; Tasting Menus</div></div></div>
+        <p>Author of "The Michelin Myth." Formally trained pastry chef, reviewing strictly under deep cover for 15 years.</p>
+      </div>
+      <div class="guild-card card">
+        <div class="top"><div class="avatar"></div><div><div class="name">Siddharth Nair</div><div class="spec">Heritage &amp; Traditional Cuisines</div></div></div>
+        <p>Specializes in preservation methods across South Asia. Former agricultural sociologist.</p>
+      </div>
+      <div class="guild-card card">
+        <div class="top"><div class="avatar"></div><div><div class="name">Clara Dubois</div><div class="spec">Natural Wines &amp; Bistronomy</div></div></div>
+        <p>Bordeaux native. Maps independent European biodynamic cellars and micro-bistros.</p>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block extra_head %}
+  {{ block.super }}
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const slider = document.querySelector('[data-slider]');
+      if (!slider) return;
+      const track = slider.querySelector('.blog-grid');
+      const buttons = document.querySelectorAll('[data-slider-direction]');
+      const updateButtons = () => {
+        buttons.forEach((button) => {
+          const atStart = track.scrollLeft <= 1;
+          const atEnd = track.scrollLeft + track.clientWidth >= track.scrollWidth - 1;
+          button.disabled = button.dataset.sliderDirection === 'prev' ? atStart : atEnd;
+        });
+      };
+      buttons.forEach((button) => button.addEventListener('click', () => {
+        track.scrollBy({ left: button.dataset.sliderDirection === 'next' ? track.clientWidth : -track.clientWidth, behavior: 'smooth' });
+        window.setTimeout(updateButtons, 350);
+      }));
+      track.addEventListener('scroll', updateButtons, { passive: true });
+      updateButtons();
+    });
+  </script>
+{% endblock %}
