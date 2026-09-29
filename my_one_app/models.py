@@ -10,6 +10,7 @@ class Restaurant(models.Model):
 	price = models.CharField(max_length=5)
 	description = models.TextField()
 	image_class = models.CharField(max_length=30, default='food1')
+	image = models.ImageField(upload_to='restaurants/', blank=True)
 	rating = models.DecimalField(max_digits=2, decimal_places=1, default=0)
 	latitude = models.DecimalField(max_digits=9, decimal_places=6, default=40.7128)
 	longitude = models.DecimalField(max_digits=9, decimal_places=6, default=-74.0060)

@@ -9,9 +9,11 @@
   </div>
 
   <div class="m-profile-head">
-    <div class="ava"></div>
+    <div class="ava">
+    <div class="profile-initial-avatar">{{ user.get_full_name|default:user.username|default:"S"|first|upper }}</div>
+    </div>
     <div>
-      <h2>Claire De Lune</h2>
+    <h2>{{ user.get_full_name|default:user.username|default:"Savora Member" }}</h2>
       <div class="sub" data-i18n="memberSince">Savora Member since 2024</div>
       <span class="m-badge" data-i18n="gourmand">GOURMAND LEVEL 3</span>
     </div>
@@ -51,9 +53,9 @@
   <div class="wrap" style="padding:64px 0;max-width:640px;">
     <h1 data-i18n="mySavora" style="font-size:32px;margin-bottom:32px;">My Savora</h1>
     <div style="display:flex;gap:18px;align-items:center;margin-bottom:32px;">
-      <div class="avatar" style="width:64px;height:64px;"></div>
+      <div class="profile-initial-avatar">{{ user.get_full_name|default:user.username|default:"S"|first|upper }}</div>
       <div>
-        <div style="font-size:20px;font-family:'Fraunces';">Claire De Lune</div>
+        <div style="font-size:20px;font-family:'Fraunces';">{{ user.get_full_name|default:user.username|default:"Savora Member" }}</div>
         <div data-i18n="memberSince" style="font-size:13px;color:var(--ink-soft);margin-bottom:8px;">Savora Member since 2024</div>
         <span class="badge" data-i18n="gourmand" style="background:rgba(193,80,46,.12);color:var(--rust);">GOURMAND LEVEL 3</span>
       </div>

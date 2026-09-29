@@ -4,7 +4,7 @@
 
 {% block mobile_content %}
   <div class="m-rhero">
-    <div class="ph {{ restaurant_obj.image_class }}" data-label="{{ restaurant_obj.name }} dining room"></div>
+    <div class="ph {{ restaurant_obj.image_class }} restaurant-photo" data-label="{{ restaurant_obj.name }} dining room">{% if restaurant_obj.image %}<img src="{{ restaurant_obj.image.url }}" alt="{{ restaurant_obj.name }}">{% endif %}</div>
     <div class="overlay"></div>
     <div class="m-rhero-top">
       <a class="m-back" href="{% url 'restaurants' %}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></a>
@@ -56,7 +56,8 @@
 {% endblock %}
 
 {% block content %}
-  <div class="ph {{ restaurant_obj.image_class }} rhero" data-label="{{ restaurant_obj.name }} dining room">
+  <div class="ph {{ restaurant_obj.image_class }} restaurant-photo rhero" data-label="{{ restaurant_obj.name }} dining room">
+    {% if restaurant_obj.image %}<img src="{{ restaurant_obj.image.url }}" alt="{{ restaurant_obj.name }}">{% endif %}
     <div class="overlay"></div>
     <div class="wrap rhero-content">
       <div class="tag-row">
