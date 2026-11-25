@@ -11,7 +11,9 @@ https://docs.djangoproject.com/en/6.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 import dotenv
+from django.core.exceptions import ImproperlyConfigured
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,7 +23,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = dotenv.get_key('.env', 'SECRET_KEY')
+dotenv.load_dotenv(BASE_DIR / '.env')
+SECRET_KEY = os.environ.get('SECRET_KEY', '').strip()
+if not SECRET_KEY:
+    raise ImproperlyConfigured(
+        'SECRET_KEY is missing. Set it in the environment or in the project root .env file. '
+        'See .env.example and PROJECT.md.'
+    )
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True

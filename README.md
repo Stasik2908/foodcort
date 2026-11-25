@@ -1,5 +1,8 @@
 # Savora
 
+Актуальное описание структуры, моделей, views, URL и настройки `SECRET_KEY`:
+[PROJECT.md](PROJECT.md). Команды запуска выполняются из корня с `manage.py`.
+
 ## Описание проекта
 
 Savora — это веб-приложение для поиска ресторанов и чтения гастрономического журнала. Пользователь может найти ресторан по названию, кухне, рейтингу или локации, открыть его персональную страницу, посмотреть карту, забронировать столик и добавить место в избранное. Зарегистрированные пользователи также могут оставлять, редактировать и удалять собственные комментарии.
@@ -19,19 +22,18 @@ Savora is a Django culinary journal and restaurant discovery app. It includes a 
 ## Project Structure
 
 ```text
-foodCort__project/
+foodcort/
 |-- requirements.txt
 |-- .venv/
 |-- README.md
-`-- my_project/
-    |-- manage.py
-    |-- db.sqlite3
-    |-- my_project/
-    |   |-- settings.py
-    |   |-- urls.py
-    |   |-- asgi.py
-    |   `-- wsgi.py
-    `-- my_one_app/
+|-- manage.py
+|-- db.sqlite3
+|-- my_project/
+|   |-- settings.py
+|   |-- urls.py
+|   |-- asgi.py
+|   `-- wsgi.py
+`-- my_one_app/
         |-- models.py
         |-- views.py
         |-- urls.py
@@ -46,7 +48,7 @@ foodCort__project/
 Open PowerShell in the project root:
 
 ```powershell
-cd C:\Users\Asus\Desktop\foodCort__project
+cd C:\Users\Stasik\Desktop\foodcort-proj\foodcort
 .\.venv\Scripts\Activate.ps1
 ```
 
@@ -58,10 +60,9 @@ py -m venv .venv
 python -m pip install -r requirements.txt
 ```
 
-Apply migrations:
+Create `.env` with a generated `SECRET_KEY` as described in [PROJECT.md](PROJECT.md), then apply migrations from the project root:
 
 ```powershell
-cd my_project
 python manage.py migrate
 ```
 
@@ -157,7 +158,7 @@ Restaurant detail pages contain mobile and desktop reservation forms. Valid rese
 
 ## Database
 
-The project uses SQLite at `my_project/db.sqlite3`. Initial restaurant and review data is loaded by the first app migration. Coordinates are populated by the second migration.
+The project uses SQLite at `db.sqlite3` in the project root. Initial restaurant and review data is loaded by the first app migration. Coordinates are populated by the second migration.
 
 ## Frontend Notes
 
@@ -172,7 +173,7 @@ The project uses SQLite at `my_project/db.sqlite3`. Initial restaurant and revie
 If Django cannot be imported, activate the virtual environment or use its interpreter directly:
 
 ```powershell
-..\.venv\Scripts\python.exe manage.py check
+.\.venv\Scripts\python.exe manage.py check
 ```
 
 If the database is out of date:
